@@ -14,24 +14,24 @@ export class CategoriesPrismaRepository implements CategoryRepository{
         return this.prisma.category.findMany()
     }
     async findOne(id: string): Promise<Category>{
-        const product =  await this.prisma.category.findUnique({where: {id}})
-        if(!product) {
-            throw new NotFoundException("Product not found");
+        const categorie =  await this.prisma.category.findUnique({where: {id}})
+        if(!categorie) {
+            throw new NotFoundException("Category not found");
         }
-        return product
+        return categorie
     }
     async update(id: string, category: UpdateCategoryDto): Promise<Category>{
-        const product =  await this.prisma.category.findUnique({where: {id}})
-        if(!product) {
-            throw new NotFoundException("Product not found");
+        const categorie =  await this.prisma.category.findUnique({where: {id}})
+        if(!categorie) {
+            throw new NotFoundException("Category not found");
         }
         return this.prisma.category.update({where: {id}, data: category})
         
     }
     async remove(id: string): Promise<Category>{
-        const product = await this.prisma.category.findUnique({where: {id}})
-        if(!product) {
-            throw new NotFoundException("Product not found");
+        const categorie = await this.prisma.category.findUnique({where: {id}})
+        if(!categorie) {
+            throw new NotFoundException("Category not found");
         }
         return this.prisma.category.delete({where: {id}})
     }
