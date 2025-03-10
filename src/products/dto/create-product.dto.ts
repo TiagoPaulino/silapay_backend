@@ -1,12 +1,11 @@
 import { Product } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime/library";
+import { Transform } from "class-transformer";
 import { 
     IsNotEmpty, 
     IsString, 
     IsNumber,
     IsPositive, 
-    IsOptional, 
-    IsDate 
 } from "class-validator";
 
 export class CreateProductDto implements Partial<Product> {
@@ -22,11 +21,13 @@ export class CreateProductDto implements Partial<Product> {
     @IsNotEmpty({ message: "Price is required" })
     @IsNumber({}, { message: "Price must be a number" })
     @IsPositive({ message: "Price must be a positive number" })
+    @Transform(({ value }) => parseFloat(value))
     price: Decimal;
 
     @IsNotEmpty({ message: "Stock is required" })
     @IsNumber({}, { message: "Stock must be a number" })
     @IsPositive({ message: "Stock must be a positive number" })
+    @Transform(({ value }) => parseInt(value, 10))
     stock: number;
 
 
@@ -35,11 +36,4 @@ export class CreateProductDto implements Partial<Product> {
 
     @IsNotEmpty({ message: "Category is required" })
     categoryId: string;
-
-    @IsDate({ message: "CreatedAt must be a valid date" })
-    createdAt?: Date;
-
-    @IsOptional()
-    @IsDate({ message: "UpdatedAt must be a valid date" })
-    updateAt?: Date;
 }
